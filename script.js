@@ -15,13 +15,25 @@ const localStorageTransactions = JSON.parse(
 let transactions =
   localStorage.getItem("transactions") !== null ? localStorageTransactions : [];
 
+// Function to display alert
+function showAlert(message) {
+  const div = document.createElement("div");
+  div.className = "alert";
+  div.appendChild(document.createTextNode(message));
+  const container = document.querySelector(".container");
+  const form = document.querySelector("#expense-form");
+  container.insertBefore(div, form);
+
+  // Vanish in 3 seconds
+  setTimeout(() => document.querySelector(".alert").remove(), 3000);
+}
+
 // Add transaction
 function addTransaction(e) {
   e.preventDefault();
 
-  /* TODO: Add alert inside UI */
   if (text.value.trim() === "" || amount.value.trim() === "") {
-    alert("Please, add a text and an amount");
+    showAlert("Please fill in all fields", "error");
   } else {
     const transaction = {
       id: generateID(),
@@ -42,7 +54,6 @@ function addTransaction(e) {
   }
 }
 
-// Generate random ID (TODO: Check for a better solution)
 function generateID() {
   return Math.floor(Math.random() * 100000000);
 }
